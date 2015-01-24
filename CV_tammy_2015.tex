@@ -1,0 +1,416 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[12pt]{article}
+\setlength\topmargin{0.5in}
+\setlength\textheight{9.0in}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+\usepackage{multirow}
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal Internal Notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the Internal Note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+%\usepackage[paper=letterpaper,
+%            %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=1.2in,     % Length of section titles
+%            marginparsep=.05in,       % Space between titles and text
+%            margin=1in,               % 1 inch margins
+%            includemp]{geometry}
+
+%% Use these lines for A4-sized paper
+\usepackage[paper=a4paper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=30.5mm,    % Length of section titles
+            marginparsep=1.5mm,       % Space between titles and text
+            margin=22mm,              % 25mm margins
+            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+%% This gives us fun enumeration environments. compactenum will be nice.
+\usepackage{paralist}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\usepackage{bm} 
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+%                    \arabic{page} of \protect\pageref*{LastPage} % +LP
+                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+%
+% Usage: \makeheading{name}
+%
+% Place at top of document. It should be the first thing.
+\newcommand{\makeheading}[1]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+                {\large \bfseries #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+%
+% Follow this section IMMEDIATELY with the first line of the section
+% text. Do not put whitespace in between. That is, do this:
+%
+%       \section{My Information}
+%       Here is my information.
+%
+% and NOT this:
+%
+%       \section{My Information}
+%
+%       Here is my information.
+%
+% Otherwise the top of the section header will not line up with the top
+% of the section. Of course, using a single comment character (%) on
+% empty lines allows for the function of the first example with the
+% readability of the second example.
+\renewcommand{\section}[2]%
+        {\pagebreak[2]\vspace{1.3\baselineskip}%
+         \phantomsection\addcontentsline{toc}{section}{#1}%
+         \hspace{0in}%
+         \marginpar{
+         \raggedright \scshape #1}#2}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{enumerate}[#1]}{\end{enumerate}%
+         \vspace{-.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\vspace{-\baselineskip}\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{compactenum}[#1]}{\end{compactenum}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[2]}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\makeheading{Tammy (Wan-Ching) Yang}
+
+%\section{Personal Information}
+%
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table.
+%
+% ALSO: \rcollength is the width of the right column of the table
+%       (adjust it to your liking; default is 1.85in).
+%
+%\newlength{\rcollength}\setlength{\rcollength}{3.0in}%
+%
+%\begin{tabular}[t]{@{}p{\textwidth-\rcollength}p{\rcollength}}
+%&\textsl{Birthday :} 30/12/1982\\
+%&\textsl{Phone :} +886 921 926 406\\
+%\textsl{E-mail: wanchingy@gmail.com} \\
+%&  \\
+%\end{tabular}
+
+\section{Personal Information}
+\newlength{\scollength}\setlength{\scollength}{3.8in}%
+%
+\begin{tabular}[t]{@{}p{\textwidth-\scollength}p{\scollength}}
+\textbf{Birthday :} & 30/12/1982\\
+\textbf{Phone :} & +886 921 926 406\\
+\textbf{E-mail:} & wanchingy@gmail.com \\
+\end{tabular}
+
+\section{Job Experience}
+\textbf{Sep 2014-present: Engineering Tech Lead in Canonical Ltd.}
+\begin{outerlist}
+\item[] Engineering Tech Lead of HP OEM projects
+        \begin{innerlist}
+        \item Develop Web API with Django framework.
+        \item Create tools to provide customized deliveries using Linux Container and OpenStack.
+        \item Improve internal process with Google Apps Scripts.
+        \item Coordinate engineering schedules, make technical decisions and provide the customer technical supports. 
+        \end{innerlist}
+
+\end{outerlist}
+\vskip \baselineskip
+
+\textbf{Mar 2012-Aug 2014: Software Engineer in Canonical Ltd.}
+\begin{outerlist}
+\item[] Software Engineer of HP OEM projects
+        \begin{innerlist}
+        \item Develop IRC bot.
+        \item Create tools in Python and Shell to improve project process.
+        \item Debug and customize a wide range of software components in Ubuntu.
+        \item Work with individual upstream projects to find and apply patches for bugs affecting OEM/ODM customers.
+        \item Support ODM factory issues.
+        \end{innerlist}
+
+\end{outerlist}
+
+\vskip \baselineskip
+
+\textbf{Jun 2011-Feb 2012: Linux Engineer in Linpus Technologies}
+\begin{outerlist}
+\item[] Linpus Lite 1.7 Installer
+        \begin{innerlist}
+        \item Enable USB installation for Anaconda (based on v16.20).
+        \item Implement dual boot for Windows 7 and Linpus Lite.
+        \item Improve performance and trim size of runtime ISO.
+        \item Design and implement live CD installation for Linpus Lite 1.7.
+        \end{innerlist}
+\item[] Meego-based Projects
+        \begin{innerlist}
+	\item Modify home UI and create panels on Meego-tablet for Intel EMPG.
+	\item Implement plasma-mobile to Meego, boot with GDM and create customized Python shells.
+	\end{innerlist}
+\item[] Android on X86
+        \begin{innerlist}
+	\item Port LAN modules from X86 Honeycomb to ICS.
+	\item Enable wifi on netbooks.
+	\end{innerlist}
+\end{outerlist}
+
+\vskip \baselineskip
+
+\textbf{Oct 2010-May 2011: Postdoc Fellow in the physics department of National Taiwan University}
+\begin{outerlist}
+\item[] E14 Koto experiment (Japan)
+        \begin{innerlist}
+        \item Improve data analysis framework. 
+        \item Organize purchase of 300 CW Bases at J-Parc.
+        \item E14 status report in PSROC 2011 conference. 
+        \item Join Calorimeter clustering reconstruction.
+        \end{innerlist}
+\end{outerlist}
+
+
+\section{Skills}
+\textbf{Operating Systems:} \\
+Android, Windows and strong working knowledge of Linux.\\ \\
+\textbf{Programming Skills:} \\ 
+Advanced user of Python, Javascript, \LaTeX, Linux shell scripting and the data analysis software, ROOT. Extensive experience with Java, C, C++. \\ \\
+\textbf{Other Tools:}\\
+Django, GAS, Mongodb, Bzr, Git, APT, dpkg, debhelper \\
+\blankline
+
+\section{Languages}
+Fluent in English and Mandarin Chinese.
+
+\section{Self-learning}
+\textbf{2015}
+\begin{outerlist}
+\item[]  \textbf{Coursera}
+\begin{innerlist}
+\item Machine Learning Techniques (National Taiwan University).
+\end{innerlist}
+\end{outerlist}
+\vspace{2mm}
+
+\textbf{2013}
+\begin{outerlist}
+\item[]  \textbf{Coursera}
+\begin{innerlist}
+\item Probability (National Taiwan University).
+\item Machine Learning Foundation (National Taiwan University).
+\end{innerlist}
+\end{outerlist}
+\vspace{2mm}
+
+\textbf{2012}
+\begin{outerlist}
+\item[]  \textbf{NTU OpenCourseWare}
+\begin{innerlist}
+\item Statistics (National Taiwan University).
+\end{innerlist}
+\end{outerlist}
+\vspace{2mm}
+
+\section{Education}
+\textbf{2006-2010}
+\begin{outerlist}
+\item[]  \textbf{PhD in Particle Physics at the University of Manchester (UK)}
+        \begin{innerlist}
+	\item Conducted research with the D\O~Collaboration at Fermilab (USA).
+	\item Search for MSSM Higgs Bosons in hadronic $\tau$ final states.
+        \item Statistical analysis for 1.08 fb$^{-1}$ data collected by D\O~detector.
+        \item Implemented D\O~software and acquired skills in Python and C++.
+	    \item Make statistical distributions using ROOT software.
+	\item Develop methods for signal optimization and assessed and debugged complex algorithms.
+	\item Reporting results in international conferences.
+	\item Measure single pion response in Run IIa (2002-2006) data and use statistical model to fine-tune D\O~Monte Carlo .
+        \end{innerlist}
+\item[]
+\end{outerlist}
+
+\textbf{2007-2009}
+\begin{outerlist}
+\item[] \textbf{Permanently based at Fermilab, Chicago, USA}
+    \begin{innerlist}
+    \item Financial Support by D\O/Fermilab studentship.
+    \end{innerlist}
+\end{outerlist}
+\vspace{2mm}
+
+\textbf{2001-2006}
+\begin{outerlist}
+\item[] \textbf{National Taiwan University (NTU) \\Department of Physics, Minor in Mechanical Engineering}\\
+        \textbf{Grade: 79.8\%, Major: 82.6\%}\vspace{-2mm}
+    \begin{innerlist}
+    \item Undergraduate project on ``Horizontal Air Showers" in the High Energy Physics Group  (2005-2006).
+    \end{innerlist}
+\end{outerlist}
+\vspace{2mm}
+
+\textbf{1998-2001}
+\begin{outerlist}
+\item[] \textbf{Taipei First Girls’ Senior High School, Taipei, Taiwan}\vspace{-2mm}
+    \begin{innerlist}
+    \item Admitted to study in Class for Talented Students in Science.
+    \end{innerlist}
+\end{outerlist}
+
+\section{Awards}
+\textbf{2010 John G Rutherglen Prize}
+
+\section{Conferences \& Seminars}
+
+\textbf{25-27 January 2011}
+\begin{outerlist}
+\item[] \textbf{2011 Annual Meeting of the Physical Society of Republic of China, Taipei, Taiwan}\vspace{-2mm}
+\item[] E14 KOTO Status
+\end{outerlist}
+\vspace{2mm}
+\textbf{13-17 August 2010}
+\begin{outerlist}
+\item[] \textbf{The 11th International Workshop on Tau Lepton Physics, Manchester, UK}\vspace{-2mm}
+\item[] Search for Standard Model and Beyond Standard Model Higgs bosons in di-tau final state at D\O
+\end{outerlist}
+\vspace{2mm}
+\textbf{29-31 July 2010}
+\begin{outerlist}
+\item[] \textbf{Higgs Hunting - Tevatron and first LHC Results, Orsay, France, Talk at Young Scientist Forum}\vspace{-2mm}
+\item[] Beyond the Standard Model Higgs Searches at D\O
+\end{outerlist}
+\vspace{2mm}
+\textbf{31 May 2010}
+\begin{outerlist}
+\item[] \textbf{National Taiwan University, Taipei, Seminar}\vspace{-2mm}
+\item[] Search for MSSM Neutral Higgs in Tau Final States at D\O
+\end{outerlist}
+\vspace{2mm}
+\textbf{3 December 2009}
+\begin{outerlist}
+\item[] \textbf{Bohr Lunch Seminar, University of Manchester}\vspace{-2mm}
+\item[] Search for MSSM Neutral Higgs in Tau Final States at D\O
+\end{outerlist}
+\vspace{2mm}
+\textbf{14-25 July 2008}
+\begin{outerlist}
+\item[] \textbf{34th International Conference on High Energy Physics at Philadelphia, USA (ICHEP 2008), Poster}\vspace{-2mm}
+\item[] Search for MSSM Higgs Boson Decaying to Tau Pairs at D\O
+\end{outerlist}
+\vspace{2mm}
+\textbf{11-15 April 2008}
+\begin{outerlist}
+\item[] \textbf{American Physical Society Meeting at St. Louis, USA, Parallel Session Talk}\vspace{-2mm}
+\item[] Search for MSSM Higgs Boson Decaying to Tau Pairs at D\O
+\end{outerlist}
+\vspace{2mm}
+\textbf{2-14 September 2007}
+\begin{outerlist}
+\item[] \textbf{RAL Summer School at Oxford, UK, Poster}\vspace{-2mm}
+\item[] Search for MSSM Higgs Boson Decaying to Tau Pairs at D\O
+\end{outerlist}
+\vspace{2mm}
+
+
+\end{document}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
